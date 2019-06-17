@@ -78,20 +78,18 @@ const StyledLinkButton = styled.a`
   transform: translateY(-50%);
 `;
 
-const Card = ({ cardType }) => (
+const Card = ({ cardType, title, content, created, twitterAccountName, articleUrl }) => (
   <StyledWrapper>
     <InnerWrapper cardType={cardType}>
-      <StyledHeading>Heading</StyledHeading>
-      <DateInfo>3 days</DateInfo>
-      {cardType === 'twitter' && <StyledAvatar src="https://avatars.io/facebook/misiekbularz" />}
-      {cardType === 'article' && <StyledLinkButton href="http://example.com" />}
+      <StyledHeading>{title}</StyledHeading>
+      <DateInfo>{created}</DateInfo>
+      {cardType === 'twitter' && (
+        <StyledAvatar src={`https://avatars.io/twitter/${twitterAccountName}`} />
+      )}
+      {cardType === 'article' && <StyledLinkButton href={articleUrl} />}
     </InnerWrapper>
     <InnerWrapper flex>
-      <Paragraph>
-        Lorem Ipsum jest tekstem stosowanym jako przykładowy wypełniacz w przemyśle poligraficznym.
-        Został po raz pierwszy użyty w XV w. przez nieznanego drukarza do wypełnienia tekstem
-        próbnej książki.
-      </Paragraph>
+      <Paragraph>{content}</Paragraph>
       <Button secondary>Remove</Button>
     </InnerWrapper>
   </StyledWrapper>
@@ -99,10 +97,17 @@ const Card = ({ cardType }) => (
 
 Card.propTypes = {
   cardType: PropTypes.oneOf(['note', 'twitter', 'article']),
+  title: PropTypes.string.isRequired,
+  content: PropTypes.string.isRequired,
+  created: PropTypes.string.isRequired,
+  twitterAccountName: PropTypes.string,
+  articleUrl: PropTypes.string,
 };
 
 Card.defaultProps = {
   cardType: 'note',
+  twitterAccountName: null,
+  articleUrl: null,
 };
 
 export default Card;
