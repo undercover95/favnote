@@ -1,10 +1,18 @@
 import React from 'react';
-import SidebarTemplate from 'templates/SidebarTemplate/SidebarTemplate';
+import UserPageTemplate from 'templates/UserPageTemplate/UserPageTemplate';
+import Card from 'components/molecules/Card/Card';
+
+const pageType = 'note';
 
 const Notes = () => (
-  <SidebarTemplate pageType="note">
-    <h1>Notes View</h1>
-  </SidebarTemplate>
+  <UserPageTemplate pageType={pageType}>
+    <Card cardType={pageType} />
+    <Card cardType={pageType} />
+    <Card cardType={pageType} />
+    <Card cardType={pageType} />
+    <Card cardType={pageType} />
+    <Card cardType={pageType} />
+  </UserPageTemplate>
 );
 
 export default Notes;

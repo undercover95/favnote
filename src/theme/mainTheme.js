@@ -6,6 +6,7 @@ export const theme = {
   grey100: 'hsl(0, 0%, 96%)',
   grey200: 'hsl(0, 0%, 90%)',
   grey300: 'hsl(0, 0%, 80%)',
+  grey400: 'hsl(0, 0%, 50%)',
   black: 'hsl(0, 0%, 0%)',
   light: 300,
   regular: 400,
@@ -13,6 +14,6 @@ export const theme = {
   fontSize: {
     s: '1.6rem',
     l: '2rem',
-    xl: '2.7rem',
+    xl: '3rem',
   },
 };

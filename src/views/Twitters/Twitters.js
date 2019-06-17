@@ -1,10 +1,18 @@
 import React from 'react';
-import SidebarTemplate from 'templates/SidebarTemplate/SidebarTemplate';
+import UserPageTemplate from 'templates/UserPageTemplate/UserPageTemplate';
+import Card from 'components/molecules/Card/Card';
+
+const pageType = 'twitter';
 
 const Twitters = () => (
-  <SidebarTemplate pageType="twitter">
-    <h1>Twitters View</h1>
-  </SidebarTemplate>
+  <UserPageTemplate pageType={pageType}>
+    <Card cardType={pageType} />
+    <Card cardType={pageType} />
+    <Card cardType={pageType} />
+    <Card cardType={pageType} />
+    <Card cardType={pageType} />
+    <Card cardType={pageType} />
+  </UserPageTemplate>
 );
 
 export default Twitters;
