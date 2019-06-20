@@ -1,46 +1,12 @@
 import React from 'react';
 import GridTemplate from 'templates/GridTemplate/GridTemplate';
 import Card from 'components/molecules/Card/Card';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 const pageType = 'articles';
 
-// dummy data
-const articles = [
-  {
-    id: 0,
-    title: 'React on my mind',
-    content:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus, tempora quibusdam natus modi tempore esse adipisci, dolore odit animi',
-    articleUrl: 'https://youtube.com/helloroman',
-    created: '1 day',
-  },
-  {
-    id: 1,
-    title: 'Wish you React',
-    content:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus, tempora quibusdam natus modi tempore esse adipisci, dolore odit animi',
-    articleUrl: 'https://youtube.com/helloroman',
-    created: '1 day',
-  },
-  {
-    id: 2,
-    title: 'You gave React a bad name',
-    content:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus, tempora quibusdam natus modi tempore esse adipisci, dolore odit animi',
-    articleUrl: 'https://youtube.com/helloroman',
-    created: '5 days',
-  },
-  {
-    id: 3,
-    title: 'Is it React you looking for?',
-    content:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus, tempora quibusdam natus modi tempore esse adipisci, dolore odit animi',
-    articleUrl: 'https://youtube.com/helloroman',
-    created: '10 days',
-  },
-];
-
-const Articles = () => (
+const Articles = ({ articles }) => (
   <GridTemplate pageType={pageType}>
     {articles.map(article => {
       return (
@@ -58,4 +24,21 @@ const Articles = () => (
   </GridTemplate>
 );
 
-export default Articles;
+Articles.propTypes = {
+  articles: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      title: PropTypes.string.isRequired,
+      content: PropTypes.string.isRequired,
+      created: PropTypes.string.isRequired,
+      articleUrl: PropTypes.string.isRequired,
+    }),
+  ),
+};
+
+Articles.defaultProps = {
+  articles: [],
+};
+
+const mapStateToProps = state => ({ articles: state.articles });
+export default connect(mapStateToProps)(Articles);

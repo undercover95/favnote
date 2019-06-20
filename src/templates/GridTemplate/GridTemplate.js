@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import SidebarTemplate from 'templates/SidebarTemplate/SidebarTemplate';
 import Input from 'components/atoms/Input/Input';
@@ -9,12 +9,35 @@ import Paragraph from 'components/atoms/Paragraph/Paragraph';
 
 const StyledWrapper = styled.div`
   padding: 25px 150px 25px 70px;
+
+  ${({ theme }) => {
+    return css`
+      @media ${theme.device.laptop} {
+        padding: 25px 50px 25px 70px;
+      }
+      @media ${theme.device.tablet} {
+        padding: 25px 25px 25px 70px;
+      }
+    `;
+  }}
 `;
 
 const StyledGridWrapper = styled.div`
   display: grid;
-  grid-gap: 85px;
+  grid-gap: 80px;
   grid-template-columns: repeat(3, 1fr);
+
+  ${({ theme }) => {
+    return css`
+      @media ${theme.device.laptop} {
+        grid-template-columns: repeat(2, 1fr);
+        grid-gap: 40px;
+      }
+      @media ${theme.device.tablet} {
+        grid-template-columns: repeat(1, 1fr);
+      }
+    `;
+  }}
 `;
 
 const StyledPageHeader = styled.div`

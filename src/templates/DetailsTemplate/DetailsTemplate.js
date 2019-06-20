@@ -44,6 +44,8 @@ const StyledButton = styled(Button)`
         return theme.secondary;
       case 'articles':
         return theme.tertiary;
+      case 'notes':
+        return theme.primary;
       default:
         return theme.primary;
     }
@@ -69,15 +71,6 @@ const StyledLink = styled.a`
   display: block;
 `;
 
-const StyledBottomLink = styled(Link)`
-  text-transform: uppercase;
-  font-weight: ${({ theme }) => theme.bold};
-  text-decoration: underline;
-  margin: 10px 0 0;
-  color: ${({ theme }) => theme.grey400};
-  display: block;
-`;
-
 const DetailsTemplate = ({ pageType, itemData }) => (
   <SidebarTemplate pageType={pageType}>
     <StyledWrapper>
@@ -100,7 +93,6 @@ const DetailsTemplate = ({ pageType, itemData }) => (
         <StyledButton as={Link} to="/" pageType={pageType}>
           Save / Close
         </StyledButton>
-        <StyledBottomLink>Remove note</StyledBottomLink>
       </FooterWrapper>
     </StyledWrapper>
   </SidebarTemplate>
@@ -108,7 +100,13 @@ const DetailsTemplate = ({ pageType, itemData }) => (
 
 DetailsTemplate.propTypes = {
   pageType: PropTypes.string.isRequired,
-  itemData: PropTypes.element.isRequired,
+  itemData: PropTypes.shape({
+    title: PropTypes.string.isRequired,
+    content: PropTypes.string.isRequired,
+    created: PropTypes.string.isRequired,
+    twitterAccountName: PropTypes.string,
+    articleUrl: PropTypes.string,
+  }).isRequired,
 };
 
 export default DetailsTemplate;

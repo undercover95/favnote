@@ -27,6 +27,8 @@ const StyledSidebar = styled.div`
         return theme.secondary;
       case 'articles':
         return theme.tertiary;
+      case 'notes':
+        return theme.primary;
       default:
         return theme.primary;
     }

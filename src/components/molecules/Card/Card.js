@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+
+import { removeItem as removeItemAction } from 'actions';
 
 import Paragraph from 'components/atoms/Paragraph/Paragraph';
 import Heading from 'components/atoms/Heading/Heading';
@@ -80,7 +83,16 @@ const StyledLinkButton = styled.a`
   transform: translateY(-50%);
 `;
 
-const Card = ({ id, cardType, title, content, created, twitterAccountName, articleUrl }) => {
+const Card = ({
+  id,
+  cardType,
+  title,
+  content,
+  created,
+  twitterAccountName,
+  articleUrl,
+  removeItem,
+}) => {
   const [redirect, setRedirect] = useState(false);
 
   if (redirect) {
@@ -112,7 +124,9 @@ const Card = ({ id, cardType, title, content, created, twitterAccountName, artic
       </InnerWrapper>
       <InnerWrapper flex>
         <Paragraph>{content}</Paragraph>
-        <Button secondary>Remove</Button>
+        <Button secondary onClick={() => removeItem(cardType, id)}>
+          Remove
+        </Button>
       </InnerWrapper>
     </StyledWrapper>
   );
@@ -126,6 +140,7 @@ Card.propTypes = {
   created: PropTypes.string.isRequired,
   twitterAccountName: PropTypes.string,
   articleUrl: PropTypes.string,
+  removeItem: PropTypes.func.isRequired,
 };
 
 Card.defaultProps = {
@@ -134,4 +149,11 @@ Card.defaultProps = {
   articleUrl: null,
 };
 
-export default Card;
+const mapDispatchToProps = dispatch => ({
+  removeItem: (itemType, id) => dispatch(removeItemAction(itemType, id)),
+});
+
+export default connect(
+  null,
+  mapDispatchToProps,
+)(Card);

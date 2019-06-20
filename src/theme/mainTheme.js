@@ -16,4 +16,9 @@ export const theme = {
     l: '2rem',
     xl: '3rem',
   },
+  device: {
+    laptop: '(max-width: 1400px)',
+    tablet: '(max-width: 768px)',
+    mobile: '(max-width: 460px)',
+  },
 };
