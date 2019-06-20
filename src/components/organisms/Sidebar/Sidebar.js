@@ -14,7 +14,7 @@ const StyledSidebar = styled.div`
   position: fixed;
   left: 0;
   top: 0;
-  width: 153px;
+  width: 150px;
   height: 100vh;
   display: flex;
   flex-direction: column;
@@ -23,9 +23,9 @@ const StyledSidebar = styled.div`
   align-items: center;
   background-color: ${({ pageType, theme }) => {
     switch (pageType) {
-      case 'twitter':
+      case 'twitters':
         return theme.secondary;
-      case 'article':
+      case 'articles':
         return theme.tertiary;
       default:
         return theme.primary;
@@ -54,7 +54,7 @@ const Sidebar = ({ pageType }) => (
   <StyledSidebar pageType={pageType}>
     <StyledLogo exact as={NavLink} to="/" />
     <IconsWrapper>
-      <ButtonIcon exact as={NavLink} to="/" icon={penIcon} activeclass="active" />
+      <ButtonIcon as={NavLink} to="/notes" icon={penIcon} activeclass="active" />
       <ButtonIcon as={NavLink} to="/twitters" icon={twitterIcon} activeclass="active" />
       <ButtonIcon as={NavLink} to="/articles" icon={bulbIcon} activeclass="active" />
     </IconsWrapper>
@@ -65,11 +65,11 @@ const Sidebar = ({ pageType }) => (
 );
 
 Sidebar.propTypes = {
-  pageType: PropTypes.oneOf(['note', 'twitter', 'article']),
+  pageType: PropTypes.oneOf(['notes', 'twitters', 'articles']),
 };
 
 Sidebar.defaultProps = {
-  pageType: 'note',
+  pageType: 'notes',
 };
 
 export default Sidebar;

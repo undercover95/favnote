@@ -1,12 +1,13 @@
 import React from 'react';
-import UserPageTemplate from 'templates/UserPageTemplate/UserPageTemplate';
+import GridTemplate from 'templates/GridTemplate/GridTemplate';
 import Card from 'components/molecules/Card/Card';
 
-const pageType = 'article';
+const pageType = 'articles';
 
 // dummy data
 const articles = [
   {
+    id: 0,
     title: 'React on my mind',
     content:
       'Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus, tempora quibusdam natus modi tempore esse adipisci, dolore odit animi',
@@ -14,6 +15,7 @@ const articles = [
     created: '1 day',
   },
   {
+    id: 1,
     title: 'Wish you React',
     content:
       'Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus, tempora quibusdam natus modi tempore esse adipisci, dolore odit animi',
@@ -21,6 +23,7 @@ const articles = [
     created: '1 day',
   },
   {
+    id: 2,
     title: 'You gave React a bad name',
     content:
       'Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus, tempora quibusdam natus modi tempore esse adipisci, dolore odit animi',
@@ -28,6 +31,7 @@ const articles = [
     created: '5 days',
   },
   {
+    id: 3,
     title: 'Is it React you looking for?',
     content:
       'Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus, tempora quibusdam natus modi tempore esse adipisci, dolore odit animi',
@@ -37,7 +41,7 @@ const articles = [
 ];
 
 const Articles = () => (
-  <UserPageTemplate pageType={pageType}>
+  <GridTemplate pageType={pageType}>
     {articles.map(article => {
       return (
         <Card
@@ -46,11 +50,12 @@ const Articles = () => (
           created={article.created}
           content={article.content}
           articleUrl={article.articleUrl}
-          key={article.title}
+          key={article.id}
+          id={article.id}
         />
       );
     })}
-  </UserPageTemplate>
+  </GridTemplate>
 );
 
 export default Articles;

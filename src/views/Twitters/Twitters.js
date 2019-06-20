@@ -1,10 +1,11 @@
 import React from 'react';
-import UserPageTemplate from 'templates/UserPageTemplate/UserPageTemplate';
+import GridTemplate from 'templates/GridTemplate/GridTemplate';
 import Card from 'components/molecules/Card/Card';
 
 // dummy data
 const twitters = [
   {
+    id: 0,
     title: 'Hello Roman',
     content:
       'Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus, tempora quibusdam natus modi tempore esse adipisci, dolore odit animi',
@@ -12,6 +13,7 @@ const twitters = [
     twitterName: 'hello_roman',
   },
   {
+    id: 1,
     title: 'Redux guy',
     content:
       'Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus, tempora quibusdam natus modi tempore esse adipisci, dolore odit animi',
@@ -19,6 +21,7 @@ const twitters = [
     twitterName: 'dan_abramov',
   },
   {
+    id: 2,
     title: 'React router stuff',
     content:
       'Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus, tempora quibusdam natus modi tempore esse adipisci, dolore odit animi',
@@ -26,6 +29,7 @@ const twitters = [
     twitterName: 'mjackson',
   },
   {
+    id: 3,
     title: 'Super animacje!',
     content:
       'Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus, tempora quibusdam natus modi tempore esse adipisci, dolore odit animi',
@@ -34,10 +38,10 @@ const twitters = [
   },
 ];
 
-const pageType = 'twitter';
+const pageType = 'twitters';
 
 const Twitters = () => (
-  <UserPageTemplate pageType={pageType}>
+  <GridTemplate pageType={pageType}>
     {twitters.map(twitter => {
       return (
         <Card
@@ -46,11 +50,12 @@ const Twitters = () => (
           created={twitter.created}
           content={twitter.content}
           twitterAccountName={twitter.twitterName}
-          key={twitter.title}
+          key={twitter.id}
+          id={twitter.id}
         />
       );
     })}
-  </UserPageTemplate>
+  </GridTemplate>
 );
 
 export default Twitters;

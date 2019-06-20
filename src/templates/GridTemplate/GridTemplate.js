@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-import Sidebar from 'components/organisms/Sidebar/Sidebar';
+import SidebarTemplate from 'templates/SidebarTemplate/SidebarTemplate';
 import Input from 'components/atoms/Input/Input';
 import Heading from 'components/atoms/Heading/Heading';
 import Paragraph from 'components/atoms/Paragraph/Paragraph';
@@ -26,6 +26,7 @@ const StyledParagraph = styled(Paragraph)`
   font-weight: ${({ theme }) => theme.bold};
   color: ${({ theme }) => theme.grey400};
 `;
+
 const StyledHeading = styled(Heading)`
   margin: 25px 0 0 0;
   ::first-letter {
@@ -33,32 +34,28 @@ const StyledHeading = styled(Heading)`
   }
 `;
 
-const UserPageTemplate = ({ children, pageType }) => (
-  <div>
-    <Sidebar pageType={pageType} />
+const GridTemplate = ({ children, pageType }) => (
+  <SidebarTemplate pageType={pageType}>
     <StyledWrapper>
       <StyledPageHeader>
         <Input search placeholder="Search" />
         <StyledHeading big as="h1">
-          {pageType}s
+          {pageType}
         </StyledHeading>
-        <StyledParagraph>6 {pageType}s</StyledParagraph>
+        <StyledParagraph>6 {pageType}</StyledParagraph>
       </StyledPageHeader>
       <StyledGridWrapper>{children}</StyledGridWrapper>
     </StyledWrapper>
-  </div>
+  </SidebarTemplate>
 );
 
-UserPageTemplate.propTypes = {
-  children: PropTypes.element.isRequired,
+GridTemplate.propTypes = {
+  children: PropTypes.arrayOf(PropTypes.object).isRequired,
+  pageType: PropTypes.oneOf(['notes', 'twitters', 'articles']),
 };
 
-UserPageTemplate.propTypes = {
-  pageType: PropTypes.oneOf(['note', 'twitter', 'article']),
+GridTemplate.defaultProps = {
+  pageType: 'notes',
 };
 
-UserPageTemplate.defaultProps = {
-  pageType: 'note',
-};
-
-export default UserPageTemplate;
+export default GridTemplate;
