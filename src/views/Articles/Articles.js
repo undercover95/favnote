@@ -4,14 +4,11 @@ import Card from 'components/molecules/Card/Card';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-const pageType = 'articles';
-
 const Articles = ({ articles }) => (
-  <GridTemplate pageType={pageType}>
+  <GridTemplate>
     {articles.map(article => {
       return (
         <Card
-          cardType={pageType}
           title={article.title}
           created={article.created}
           content={article.content}

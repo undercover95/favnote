@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import SidebarTemplate from 'templates/SidebarTemplate/SidebarTemplate';
 import styled from 'styled-components';
+import withContext from 'hoc/withContext';
 
 import Paragraph from 'components/atoms/Paragraph/Paragraph';
 import Heading from 'components/atoms/Heading/Heading';
@@ -71,26 +72,26 @@ const StyledLink = styled.a`
   display: block;
 `;
 
-const DetailsTemplate = ({ pageType, itemData }) => (
-  <SidebarTemplate pageType={pageType}>
+const DetailsTemplate = ({ pageContext, itemData }) => (
+  <SidebarTemplate pageType={pageContext}>
     <StyledWrapper>
       <HeaderWrapper>
         <div>
           <StyledHeading big>{itemData.title}</StyledHeading>
           <DateInfo>Created: {itemData.created}</DateInfo>
         </div>
-        {pageType === 'twitters' && (
+        {pageContext === 'twitters' && (
           <StyledAvatar src={`https://avatars.io/twitter/${itemData.twitterAccountName}`} />
         )}
       </HeaderWrapper>
       <ContentWrapper>
         <p>{itemData.content}</p>
-        {pageType === 'articles' && (
+        {pageContext === 'articles' && (
           <StyledLink href={`http://${itemData.articleUrl}`}>Open this article</StyledLink>
         )}
       </ContentWrapper>
       <FooterWrapper>
-        <StyledButton as={Link} to="/" pageType={pageType}>
+        <StyledButton as={Link} to="/" pageType={pageContext}>
           Save / Close
         </StyledButton>
       </FooterWrapper>
@@ -99,7 +100,7 @@ const DetailsTemplate = ({ pageType, itemData }) => (
 );
 
 DetailsTemplate.propTypes = {
-  pageType: PropTypes.string.isRequired,
+  pageContext: PropTypes.oneOf(['notes', 'twitters', 'articles']),
   itemData: PropTypes.shape({
     title: PropTypes.string.isRequired,
     content: PropTypes.string.isRequired,
@@ -109,4 +110,8 @@ DetailsTemplate.propTypes = {
   }).isRequired,
 };
 
-export default DetailsTemplate;
+DetailsTemplate.defaultProps = {
+  pageContext: 'notes',
+};
+
+export default withContext(DetailsTemplate);

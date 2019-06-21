@@ -4,14 +4,11 @@ import Card from 'components/molecules/Card/Card';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-const pageType = 'notes';
-
 const Notes = ({ notes }) => (
-  <GridTemplate pageType={pageType}>
+  <GridTemplate>
     {notes.map(note => {
       return (
         <Card
-          cardType={pageType}
           title={note.title}
           created={note.created}
           content={note.content}

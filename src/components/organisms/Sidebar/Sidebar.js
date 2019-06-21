@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 
+import withContext from 'hoc/withContext';
+
 import ButtonIcon from 'components/atoms/ButtonIcon/ButtonIcon';
 import bulbIcon from 'assets/icons/bulb.svg';
 import logoutIcon from 'assets/icons/logout.svg';
@@ -52,8 +54,8 @@ const LogoutWrapper = styled.div`
   margin-top: auto;
 `;
 
-const Sidebar = ({ pageType }) => (
-  <StyledSidebar pageType={pageType}>
+const Sidebar = ({ pageContext }) => (
+  <StyledSidebar pageType={pageContext}>
     <StyledLogo exact as={NavLink} to="/" />
     <IconsWrapper>
       <ButtonIcon as={NavLink} to="/notes" icon={penIcon} activeclass="active" />
@@ -67,11 +69,11 @@ const Sidebar = ({ pageType }) => (
 );
 
 Sidebar.propTypes = {
-  pageType: PropTypes.oneOf(['notes', 'twitters', 'articles']),
+  pageContext: PropTypes.oneOf(['notes', 'twitters', 'articles']),
 };
 
 Sidebar.defaultProps = {
-  pageType: 'notes',
+  pageContext: 'notes',
 };
 
-export default Sidebar;
+export default withContext(Sidebar);
