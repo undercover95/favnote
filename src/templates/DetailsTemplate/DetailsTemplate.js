@@ -39,18 +39,6 @@ const StyledButton = styled(Button)`
   text-decoration: none;
   color: black;
   position: relative;
-  background-color: ${({ pageType, theme }) => {
-    switch (pageType) {
-      case 'twitters':
-        return theme.secondary;
-      case 'articles':
-        return theme.tertiary;
-      case 'notes':
-        return theme.primary;
-      default:
-        return theme.primary;
-    }
-  }};
 `;
 
 const StyledHeading = styled(Heading)`

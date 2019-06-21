@@ -2,7 +2,18 @@ import styled, { css } from 'styled-components';
 
 const Button = styled.button`
   padding: 0;
-  background-color: ${({ theme }) => theme.primary};
+  background-color: ${({ pageType, theme }) => {
+    switch (pageType) {
+      case 'notes':
+        return theme.primary;
+      case 'twitters':
+        return theme.secondary;
+      case 'articles':
+        return theme.tertiary;
+      default:
+        return theme.white;
+    }
+  }};
   width: ${({ width }) => width || '220px'};
   height: 47px;
   border: none;

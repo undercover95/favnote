@@ -18,6 +18,13 @@ const StyledWrapper = styled.div`
   min-height: 380px;
   display: grid;
   grid-template-rows: 0.25fr 1fr;
+  position: relative;
+  transition: transform 0.2s ease-in-out;
+
+  :hover {
+    cursor: pointer;
+    transform: scale(1.025);
+  }
 `;
 
 const InnerWrapper = styled.div`
@@ -153,9 +160,7 @@ const mapDispatchToProps = dispatch => ({
   removeItem: (itemType, id) => dispatch(removeItemAction(itemType, id)),
 });
 
-export default withContext(
-  connect(
-    null,
-    mapDispatchToProps,
-  )(Card),
-);
+export default connect(
+  null,
+  mapDispatchToProps,
+)(withContext(Card));
