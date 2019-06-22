@@ -1,9 +1,11 @@
 import React from 'react';
-import { Formik, Form } from 'formik';
-import { Link } from 'react-router-dom';
+import { Formik, Form, ErrorMessage } from 'formik';
+import { Link, Redirect } from 'react-router-dom';
 import styled from 'styled-components';
-import axios from 'axios';
+import { connect } from 'react-redux';
 import { routes } from 'routes';
+import { authenticate as authenticateAction } from 'actions';
+import PropTypes from 'prop-types';
 
 import Button from 'components/atoms/Button/Button';
 import Input from 'components/atoms/Input/Input';
@@ -38,7 +40,14 @@ const StyledLink = styled(Link)`
   margin-top: 40px;
 `;
 
-const SignInForm = () => (
+const StyledErrorMsg = styled.div`
+  margin: 10px 0 0;
+  font-weight: ${({ theme }) => theme.bold};
+  color: red;
+  text-align: center;
+`;
+
+const SignInForm = ({ authenticate, userId }) => (
   <>
     <Heading big>Sign in</Heading>
     <Formik
@@ -46,31 +55,76 @@ const SignInForm = () => (
         username: '',
         password: '',
       }}
-      onSubmit={(values, { setSubmitting }) => {
-        setSubmitting(false);
-        axios
-          .post('http://localhost:9000/api/user/login', {
-            username: values.username,
-            password: values.password,
-          })
-          .then(() => {
-            console.log('Login successful');
-          })
-          .catch(err => {
-            console.log(`Login failed.\n${err}`);
-          });
+      validate={values => {
+        const errors = {};
+
+        if (!values.username) {
+          errors.username = 'Username is required';
+        }
+
+        if (!values.password) {
+          errors.password = 'Password is required';
+        }
+
+        return errors;
+      }}
+      onSubmit={values => {
+        authenticate(values.username, values.password);
       }}
     >
-      {() => (
-        <StyledForm>
-          <StyledInput name="username" type="text" placeholder="Username" />
-          <StyledInput name="password" type="password" placeholder="Password" />
-          <StyledButton type="submit">Sign in</StyledButton>
-          <StyledLink to={routes.register}>Sign up!</StyledLink>
-        </StyledForm>
-      )}
+      {({ values, handleChange, handleBlur }) => {
+        if (userId) {
+          return <Redirect to={routes.home} />;
+        }
+        return (
+          <StyledForm>
+            <StyledInput
+              name="username"
+              type="text"
+              placeholder="Username"
+              onChange={handleChange}
+              onBlur={handleBlur}
+              value={values.username}
+            />
+            <ErrorMessage name="username" component={StyledErrorMsg} />
+
+            <StyledInput
+              name="password"
+              type="password"
+              placeholder="Password"
+              onChange={handleChange}
+              onBlur={handleBlur}
+              value={values.password}
+            />
+            <ErrorMessage name="password" component={StyledErrorMsg} />
+
+            <StyledButton type="submit">Sign in</StyledButton>
+            <StyledLink to={routes.register}>Sign up!</StyledLink>
+          </StyledForm>
+        );
+      }}
     </Formik>
   </>
 );
 
-export default SignInForm;
+const mapStateToProps = ({ userId = null }) => ({
+  userId,
+});
+
+const mapDispatchToProps = dispatch => ({
+  authenticate: (username, password) => dispatch(authenticateAction(username, password)),
+});
+
+SignInForm.propTypes = {
+  authenticate: PropTypes.func.isRequired,
+  userId: PropTypes.string,
+};
+
+SignInForm.defaultProps = {
+  userId: null,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(SignInForm);

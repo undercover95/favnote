@@ -1,3 +1,11 @@
+import {
+  ADD_ITEM,
+  REMOVE_ITEM,
+  // AUTHENTICATE_REQUEST,
+  AUTHENTICATE_SUCCESS,
+  // AUTHENTICATE_FAILURE,
+} from 'actions';
+
 const initialState = {
   notes: [
     {
@@ -101,7 +109,12 @@ const initialState = {
 
 const rootReducer = (state = initialState, action) => {
   switch (action.type) {
-    case 'REMOVE_ITEM':
+    case AUTHENTICATE_SUCCESS:
+      return {
+        ...state,
+        userId: action.payload.data._id,
+      };
+    case REMOVE_ITEM:
       return {
         ...state,
         [action.payload.itemType]: [
@@ -109,11 +122,12 @@ const rootReducer = (state = initialState, action) => {
         ],
       };
 
-    case 'ADD_ITEM':
+    case ADD_ITEM:
       return {
         ...state,
         [action.payload.itemType]: [...state[action.payload.itemType], action.payload.item],
       };
+
     default:
       return state;
   }

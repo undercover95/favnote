@@ -2,7 +2,6 @@ import React from 'react';
 import { Formik, Form } from 'formik';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import axios from 'axios';
 import { routes } from 'routes';
 
 import Button from 'components/atoms/Button/Button';
@@ -48,17 +47,6 @@ const SignUpForm = () => (
       }}
       onSubmit={(values, { setSubmitting }) => {
         setSubmitting(false);
-        axios
-          .post('http://localhost:9000/api/user/login', {
-            username: values.username,
-            password: values.password,
-          })
-          .then(() => {
-            console.log('Register successful');
-          })
-          .catch(err => {
-            console.log(`Register failed.\n${err}`);
-          });
       }}
     >
       {() => (
