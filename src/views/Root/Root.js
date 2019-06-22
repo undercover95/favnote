@@ -6,6 +6,7 @@ import { Provider } from 'react-redux';
 import { routes } from 'routes';
 import store from 'store';
 
+import AuthPage from 'views/AuthPage/AuthPage';
 import Notes from 'views/Notes/Notes';
 import Twitters from 'views/Twitters/Twitters';
 import Articles from 'views/Articles/Articles';
@@ -16,6 +17,9 @@ const Root = () => (
     <BrowserRouter>
       <MainTemplate>
         <Switch>
+          <Route exact path={routes.login} render={() => <AuthPage authType="signIn" />} />
+          <Route exact path={routes.register} render={() => <AuthPage authType="signUp" />} />
+
           <Route exact path={routes.home} render={() => <Redirect to={routes.notes} />} />
 
           <Route exact path={routes.notes} component={Notes} />

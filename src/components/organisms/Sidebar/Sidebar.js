@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
-
+import { routes } from 'routes';
 import withContext from 'hoc/withContext';
 
 import ButtonIcon from 'components/atoms/ButtonIcon/ButtonIcon';
@@ -58,12 +58,12 @@ const Sidebar = ({ pageContext }) => (
   <StyledSidebar pageType={pageContext}>
     <StyledLogo exact as={NavLink} to="/" />
     <IconsWrapper>
-      <ButtonIcon as={NavLink} to="/notes" icon={penIcon} activeclass="active" />
-      <ButtonIcon as={NavLink} to="/twitters" icon={twitterIcon} activeclass="active" />
-      <ButtonIcon as={NavLink} to="/articles" icon={bulbIcon} activeclass="active" />
+      <ButtonIcon as={NavLink} to={routes.notes} icon={penIcon} activeclass="active" />
+      <ButtonIcon as={NavLink} to={routes.twitters} icon={twitterIcon} activeclass="active" />
+      <ButtonIcon as={NavLink} to={routes.articles} icon={bulbIcon} activeclass="active" />
     </IconsWrapper>
     <LogoutWrapper>
-      <ButtonIcon as={NavLink} to="/login" icon={logoutIcon} />
+      <ButtonIcon as={NavLink} to={routes.login} icon={logoutIcon} />
     </LogoutWrapper>
   </StyledSidebar>
 );
