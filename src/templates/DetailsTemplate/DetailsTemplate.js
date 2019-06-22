@@ -32,13 +32,15 @@ const StyledAvatar = styled.img`
   border-radius: 50%;
 `;
 
-const StyledButton = styled(Button)`
-  display: block;
-  line-height: 47px;
-  text-align: center;
-  text-decoration: none;
-  color: black;
-  position: relative;
+const StyledButtonLinkWrapper = styled(Button)`
+  a {
+    display: block;
+    line-height: 47px;
+    text-align: center;
+    text-decoration: none;
+    color: black;
+    position: relative;
+  }
 `;
 
 const StyledHeading = styled(Heading)`
@@ -79,9 +81,9 @@ const DetailsTemplate = ({ pageContext, itemData }) => (
         )}
       </ContentWrapper>
       <FooterWrapper>
-        <StyledButton as={Link} to="/" pageType={pageContext}>
-          Save / Close
-        </StyledButton>
+        <StyledButtonLinkWrapper as="div" pageType={pageContext}>
+          <Link to={`/${pageContext}`}>Save / Close</Link>
+        </StyledButtonLinkWrapper>
       </FooterWrapper>
     </StyledWrapper>
   </SidebarTemplate>

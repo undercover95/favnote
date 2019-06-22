@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 const Articles = ({ articles }) => (
-  <GridTemplate>
+  <GridTemplate itemCounter={articles.length}>
     {articles.map(article => {
       return (
         <Card

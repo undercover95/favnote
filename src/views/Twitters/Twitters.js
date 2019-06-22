@@ -6,7 +6,7 @@ import GridTemplate from 'templates/GridTemplate/GridTemplate';
 import Card from 'components/molecules/Card/Card';
 
 const Twitters = ({ twitters }) => (
-  <GridTemplate>
+  <GridTemplate itemCounter={twitters.length}>
     {twitters.map(twitter => {
       return (
         <Card

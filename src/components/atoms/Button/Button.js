@@ -11,7 +11,7 @@ const Button = styled.button`
       case 'articles':
         return theme.tertiary;
       default:
-        return theme.white;
+        return theme.grey200;
     }
   }};
   width: ${({ width }) => width || '220px'};
@@ -31,6 +31,11 @@ const Button = styled.button`
       height: 30px;
       font-size: 10px;
     `}
+
+  :hover {
+    opacity: 0.75;
+    cursor: pointer;
+  }
 `;
 
 export default Button;

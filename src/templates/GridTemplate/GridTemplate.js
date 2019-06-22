@@ -68,7 +68,8 @@ const StyledButtonIcon = styled(ButtonIcon)`
   position: fixed;
   bottom: 40px;
   right: 40px;
-  background-size: 30%;
+  box-shadow: 0 5px 20px -10px hsla(0, 0%, 0%, 0.1);
+  background-size: 35%;
   background-color: ${({ pageType, theme }) => {
     switch (pageType) {
       case 'twitters':
@@ -83,9 +84,16 @@ const StyledButtonIcon = styled(ButtonIcon)`
   }};
   border-radius: 50%;
   z-index: 999999;
+
+  :hover {
+    cursor: pointer;
+  }
+
+  transition: transform 0.2s ease-in-out;
+  transform: rotate(${({ isNewItemBarVisible }) => (isNewItemBarVisible ? '45deg' : '0')});
 `;
 
-const GridTemplate = ({ children, pageContext }) => {
+const GridTemplate = ({ children, pageContext, itemCounter }) => {
   const [isNewItemBarVisible, setNewItemBarVisibility] = useState(false);
 
   return (
@@ -96,15 +104,16 @@ const GridTemplate = ({ children, pageContext }) => {
           <StyledHeading big as="h1">
             {pageContext}
           </StyledHeading>
-          <StyledParagraph>6 {pageContext}</StyledParagraph>
+          <StyledParagraph>{`${itemCounter} ${pageContext}`}</StyledParagraph>
         </StyledPageHeader>
         <StyledGridWrapper>{children}</StyledGridWrapper>
         <StyledButtonIcon
           icon={plusIcon}
           pageType={pageContext}
+          isNewItemBarVisible={isNewItemBarVisible}
           onClick={() => setNewItemBarVisibility(prevVisibility => !prevVisibility)}
         />
-        <NewItemBar isVisible={isNewItemBarVisible} />
+        <NewItemBar handleClose={setNewItemBarVisibility} isVisible={isNewItemBarVisible} />
       </StyledWrapper>
     </SidebarTemplate>
   );
@@ -113,6 +122,7 @@ const GridTemplate = ({ children, pageContext }) => {
 GridTemplate.propTypes = {
   children: PropTypes.arrayOf(PropTypes.object).isRequired,
   pageContext: PropTypes.oneOf(['notes', 'twitters', 'articles']),
+  itemCounter: PropTypes.number.isRequired,
 };
 
 GridTemplate.defaultProps = {

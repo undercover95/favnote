@@ -4,6 +4,8 @@ import styled from 'styled-components';
 import withContext from 'hoc/withContext';
 import { connect } from 'react-redux';
 import { addItem as addItemAction } from 'actions';
+import { Formik, Form, ErrorMessage } from 'formik';
+import validUrl from 'valid-url';
 
 import Input from 'components/atoms/Input/Input';
 import Button from 'components/atoms/Button/Button';
@@ -39,40 +41,132 @@ const StyledWrapper = styled.div`
   width: 600px;
 `;
 
+const StyledForm = styled(Form)`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-bottom: auto;
+`;
+
 const StyledTextArea = styled(Input)`
-  margin: 30px 0 auto;
+  margin: 25px 0 0px;
   height: 30vh;
   border-radius: 20px;
 `;
 
+const StyledHeading = styled(Heading)``;
+
 const StyledButton = styled(Button)`
-  margin: 0 0 auto;
+  margin: 70px 0 auto;
 `;
 
 const StyledInput = styled(Input)`
   margin-top: 25px;
+
+  :first-of-type {
+    margin-top: 10px;
+  }
 `;
 
-const NewItemBar = ({ pageContext, isVisible, addItem }) => {
+const StyledErrorMsg = styled.div`
+  margin: 10px 0 0;
+  font-weight: ${({ theme }) => theme.bold};
+  color: red;
+  text-align: center;
+`;
+
+const NewItemBar = ({ pageContext, isVisible, addItem, handleClose }) => {
   const singularItemName = pageContext.slice(0, pageContext.length - 1);
   return (
     <StyledWrapper isVisible={isVisible} pageType={pageContext}>
-      <Heading big>Add a new {singularItemName}</Heading>
-      <StyledInput placeholder="Enter title" />
-      {pageContext === 'twitters' && <StyledInput placeholder="Enter twitter account name" />}
-      {pageContext === 'articles' && <StyledInput placeholder="Enter article link" />}
-      <StyledTextArea as="textarea" placeholder="Enter content" />
-      <StyledButton
-        onClick={() =>
-          addItem(pageContext, {
-            title: 'title',
-            content: 'content',
-          })
-        }
-        pageType={pageContext}
+      <StyledHeading big>Add a new {singularItemName}</StyledHeading>
+      <Formik
+        initialValues={{
+          title: '',
+          content: '',
+          articleUrl: '',
+          twitterAccountName: '',
+          created: '',
+        }}
+        validate={values => {
+          const errors = {};
+
+          if (!values.title) {
+            errors.title = 'Title is required';
+          } else if (values.title.length === 0) {
+            errors.title = 'Invalid title';
+          }
+
+          if (!values.content) {
+            errors.content = 'Content is required';
+          }
+
+          if (!values.articleUrl) {
+            errors.articleUrl = 'Article URL is required';
+          } else if (!validUrl.isUri(values.articleUrl)) {
+            errors.articleUrl = 'Article URL is invalid';
+          }
+
+          return errors;
+        }}
+        onSubmit={(values, { setSubmitting }) => {
+          setSubmitting(false);
+          addItem(pageContext, values);
+          handleClose();
+        }}
       >
-        Add {singularItemName}
-      </StyledButton>
+        {({ isSubmitting, values, handleChange, handleBlur }) => (
+          <StyledForm>
+            <StyledInput
+              type="text"
+              name="title"
+              placeholder="Enter title"
+              onChange={handleChange}
+              onBlur={handleBlur}
+              value={values.title}
+            />
+            <ErrorMessage name="title" component={StyledErrorMsg} />
+            {pageContext === 'twitters' && (
+              <>
+                <StyledInput
+                  type="text"
+                  name="twitterAccountName"
+                  placeholder="Enter twitter account name"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.twitterAccountName}
+                />
+                <ErrorMessage name="twitterAccountName" component={StyledErrorMsg} />
+              </>
+            )}
+            {pageContext === 'articles' && (
+              <>
+                <StyledInput
+                  type="text"
+                  name="articleUrl"
+                  placeholder="Enter article link"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.articleUrl}
+                />
+                <ErrorMessage name="articleUrl" component={StyledErrorMsg} />
+              </>
+            )}
+            <StyledTextArea
+              as="textarea"
+              placeholder="Enter content"
+              name="content"
+              onChange={handleChange}
+              onBlur={handleBlur}
+              value={values.content}
+            />
+            <ErrorMessage name="content" component={StyledErrorMsg} />
+            <StyledButton disable={isSubmitting} type="submit" pageType={pageContext}>
+              Add {singularItemName}
+            </StyledButton>
+          </StyledForm>
+        )}
+      </Formik>
     </StyledWrapper>
   );
 };
@@ -81,6 +175,7 @@ NewItemBar.propTypes = {
   pageContext: PropTypes.oneOf(['notes', 'twitters', 'articles']),
   isVisible: PropTypes.bool.isRequired,
   addItem: PropTypes.func.isRequired,
+  handleClose: PropTypes.func.isRequired,
 };
 
 NewItemBar.defaultProps = {
