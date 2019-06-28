@@ -1,5 +1,10 @@
 import axios from 'axios';
 
+import config from 'config';
+
+const environment = process.env.NODE_ENV || 'development';
+const appConfig = config[environment];
+
 export const ADD_ITEM_REQUEST = 'ADD_ITEM_REQUEST';
 export const ADD_ITEM_SUCCESS = 'ADD_ITEM_SUCCESS';
 export const ADD_ITEM_FAILURE = 'ADD_ITEM_FAILURE';
@@ -21,7 +26,7 @@ export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
 export const LOGOUT_FAILURE = 'LOGOUT_FAILURE';
 
 const AUTH_TOKEN_NAME = 'authToken';
-const API_ENTRY_POINT = 'http://localhost:9000/api/';
+const API_ENTRY = `${appConfig.api_host}:${appConfig.api_port}/${appConfig.api_entry}`;
 
 const getHeaders = () => ({
   Authorization: `Bearer ${localStorage.getItem(AUTH_TOKEN_NAME)}`,
@@ -35,7 +40,7 @@ export const logOutUser = () => dispatch => {
   dispatch({ type: LOGOUT_REQUEST });
   return axios
     .post(
-      `${API_ENTRY_POINT}/user/logout`,
+      `${API_ENTRY}/user/logout`,
       {},
       {
         headers: getHeaders(),
@@ -59,7 +64,7 @@ export const userIsLogged = () => {
 export const authenticate = (username, password) => dispatch => {
   dispatch({ type: AUTHENTICATE_REQUEST });
   return axios
-    .post(`${API_ENTRY_POINT}/user/login`, {
+    .post(`${API_ENTRY}/user/login`, {
       username,
       password,
     })
@@ -77,7 +82,7 @@ export const authenticate = (username, password) => dispatch => {
 export const removeItem = (itemType, _id) => dispatch => {
   dispatch({ type: REMOVE_ITEM_REQUEST });
   axios
-    .delete(`${API_ENTRY_POINT}/note/${_id}`, {
+    .delete(`${API_ENTRY}/note/${_id}`, {
       headers: getHeaders(),
     })
     .then(() => {
@@ -102,7 +107,7 @@ export const addItem = (itemType, itemContent) => dispatch => {
   dispatch({ type: ADD_ITEM_REQUEST });
   axios
     .post(
-      `${API_ENTRY_POINT}/note`,
+      `${API_ENTRY}/note`,
       {
         type: itemType,
         ...itemContent,
@@ -130,7 +135,7 @@ export const addItem = (itemType, itemContent) => dispatch => {
 export const fetchItems = itemType => dispatch => {
   dispatch({ type: FETCH_REQUEST });
   return axios
-    .get(`${API_ENTRY_POINT}/notes/type`, {
+    .get(`${API_ENTRY}/notes/type`, {
       params: {
         type: itemType,
       },
@@ -154,7 +159,7 @@ export const fetchItems = itemType => dispatch => {
 
 export const fetchSingleItem = _id => {
   return axios
-    .get(`${API_ENTRY_POINT}/note/${_id}`, {
+    .get(`${API_ENTRY}/note/${_id}`, {
       headers: getHeaders(),
     })
     .then(({ data }) => {
