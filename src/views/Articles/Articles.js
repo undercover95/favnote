@@ -11,7 +11,7 @@ const Articles = ({ articles, fetchItems }) => {
   }, [fetchItems]);
 
   return (
-    <GridTemplate itemCounter={articles.length}>
+    <GridTemplate>
       {articles.map(article => {
         return (
           <Card

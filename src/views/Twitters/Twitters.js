@@ -11,7 +11,7 @@ const Twitters = ({ twitters, fetchItems }) => {
   }, [fetchItems]);
 
   return (
-    <GridTemplate itemCounter={twitters.length}>
+    <GridTemplate>
       {twitters.map(twitter => {
         return (
           <Card

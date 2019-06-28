@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
 
@@ -93,20 +93,36 @@ const StyledButtonIcon = styled(ButtonIcon)`
   transform: rotate(${({ isNewItemBarVisible }) => (isNewItemBarVisible ? '45deg' : '0')});
 `;
 
-const GridTemplate = ({ children, pageContext, itemCounter }) => {
+const GridTemplate = ({ children, pageContext }) => {
   const [isNewItemBarVisible, setNewItemBarVisibility] = useState(false);
+  const [filteredItems, setFilteredItems] = useState(children);
+
+  useEffect(() => {
+    setFilteredItems(children);
+  }, [children]);
+
+  const searchItems = event => {
+    const text = event.target.value.toLowerCase();
+
+    const newItems = children.filter(child => {
+      const { title } = child.props;
+      return title.toLowerCase().indexOf(text) !== -1;
+    });
+
+    setFilteredItems(newItems);
+  };
 
   return (
     <SidebarTemplate>
       <StyledWrapper>
         <StyledPageHeader>
-          <Input search placeholder="Search" />
+          <Input search placeholder="Search by title" onChange={searchItems} />
           <StyledHeading big as="h1">
             {pageContext}
           </StyledHeading>
-          <StyledParagraph>{`${itemCounter} ${pageContext}`}</StyledParagraph>
+          <StyledParagraph>{`${filteredItems.length} ${pageContext}`}</StyledParagraph>
         </StyledPageHeader>
-        <StyledGridWrapper>{children}</StyledGridWrapper>
+        <StyledGridWrapper>{filteredItems}</StyledGridWrapper>
         <StyledButtonIcon
           icon={plusIcon}
           pageType={pageContext}
@@ -122,7 +138,6 @@ const GridTemplate = ({ children, pageContext, itemCounter }) => {
 GridTemplate.propTypes = {
   children: PropTypes.arrayOf(PropTypes.object).isRequired,
   pageContext: PropTypes.oneOf(['notes', 'twitters', 'articles']),
-  itemCounter: PropTypes.number.isRequired,
 };
 
 GridTemplate.defaultProps = {
