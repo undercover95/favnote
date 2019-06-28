@@ -2,11 +2,11 @@
   "development": {
     "api_host": "http://localhost",
     "api_port": "9000",
-    "api_entry": "/api"
+    "api_entry": "api"
   },
   "production": {
     "api_host": "http://185.238.74.247",
     "api_port": "9000",
-    "api_entry": "/api"
+    "api_entry": "api"
   }
 }
