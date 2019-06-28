@@ -75,7 +75,7 @@ const StyledErrorMsg = styled.div`
   text-align: center;
 `;
 
-const NewItemBar = ({ pageContext, isVisible, addItem, handleClose }) => {
+const NewItemBar = ({ isVisible, handleClose, pageContext, addItem }) => {
   const singularItemName = pageContext.slice(0, pageContext.length - 1);
   return (
     <StyledWrapper isVisible={isVisible} pageType={pageContext}>
@@ -86,36 +86,41 @@ const NewItemBar = ({ pageContext, isVisible, addItem, handleClose }) => {
           content: '',
           articleUrl: '',
           twitterAccountName: '',
-          created: '',
         }}
         validate={values => {
           const errors = {};
 
           if (!values.title) {
             errors.title = 'Title is required';
-          } else if (values.title.length === 0) {
-            errors.title = 'Invalid title';
           }
 
           if (!values.content) {
             errors.content = 'Content is required';
           }
 
-          if (!values.articleUrl) {
-            errors.articleUrl = 'Article URL is required';
-          } else if (!validUrl.isUri(values.articleUrl)) {
-            errors.articleUrl = 'Article URL is invalid';
+          if (pageContext === 'articles') {
+            if (!values.articleUrl) {
+              errors.articleUrl = 'Article URL is required';
+            } else if (!validUrl.isUri(values.articleUrl)) {
+              errors.articleUrl = 'Article URL is invalid';
+            }
+          }
+
+          if (pageContext === 'twitters') {
+            if (!values.twitterAccountName) {
+              errors.twitterAccountName = 'Twitter account name is required';
+            }
           }
 
           return errors;
         }}
-        onSubmit={(values, { setSubmitting }) => {
-          setSubmitting(false);
+        onSubmit={(values, { resetForm }) => {
           addItem(pageContext, values);
           handleClose();
+          resetForm();
         }}
       >
-        {({ isSubmitting, values, handleChange, handleBlur }) => (
+        {({ values, handleChange, handleBlur }) => (
           <StyledForm>
             <StyledInput
               type="text"
@@ -131,7 +136,7 @@ const NewItemBar = ({ pageContext, isVisible, addItem, handleClose }) => {
                 <StyledInput
                   type="text"
                   name="twitterAccountName"
-                  placeholder="Enter twitter account name"
+                  placeholder="Enter twitter account name (slug)"
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.twitterAccountName}
@@ -161,7 +166,7 @@ const NewItemBar = ({ pageContext, isVisible, addItem, handleClose }) => {
               value={values.content}
             />
             <ErrorMessage name="content" component={StyledErrorMsg} />
-            <StyledButton disable={isSubmitting} type="submit" pageType={pageContext}>
+            <StyledButton type="submit" pageType={pageContext}>
               Add {singularItemName}
             </StyledButton>
           </StyledForm>
@@ -173,13 +178,14 @@ const NewItemBar = ({ pageContext, isVisible, addItem, handleClose }) => {
 
 NewItemBar.propTypes = {
   pageContext: PropTypes.oneOf(['notes', 'twitters', 'articles']),
-  isVisible: PropTypes.bool.isRequired,
+  isVisible: PropTypes.bool,
   addItem: PropTypes.func.isRequired,
   handleClose: PropTypes.func.isRequired,
 };
 
 NewItemBar.defaultProps = {
   pageContext: 'notes',
+  isVisible: false,
 };
 
 const mapDispatchToProps = dispatch => ({

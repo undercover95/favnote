@@ -4,10 +4,8 @@ import PropTypes from 'prop-types';
 import SidebarTemplate from 'templates/SidebarTemplate/SidebarTemplate';
 import styled from 'styled-components';
 import withContext from 'hoc/withContext';
-
 import Paragraph from 'components/atoms/Paragraph/Paragraph';
 import Heading from 'components/atoms/Heading/Heading';
-import Button from 'components/atoms/Button/Button';
 
 const StyledWrapper = styled.div`
   padding: 50px 150px 25px 70px;
@@ -32,17 +30,6 @@ const StyledAvatar = styled.img`
   border-radius: 50%;
 `;
 
-const StyledButtonLinkWrapper = styled(Button)`
-  a {
-    display: block;
-    line-height: 47px;
-    text-align: center;
-    text-decoration: none;
-    color: black;
-    position: relative;
-  }
-`;
-
 const StyledHeading = styled(Heading)`
   margin: 0;
 `;
@@ -54,6 +41,41 @@ const DateInfo = styled(Paragraph)`
   color: ${({ theme }) => theme.grey400};
 `;
 
+const StyledLinkWrapper = styled.div`
+  width: 220px;
+  height: 47px;
+  line-height: 47px;
+  font-size: 16px;
+  text-align: center;
+  border-radius: 50px;
+  font-weight: ${({ theme }) => theme.bold};
+  text-transform: uppercase;
+  background-color: ${({ pageType, theme }) => {
+    switch (pageType) {
+      case 'notes':
+        return theme.primary;
+      case 'twitters':
+        return theme.secondary;
+      case 'articles':
+        return theme.tertiary;
+      default:
+        return theme.grey200;
+    }
+  }};
+
+  :hover {
+    opacity: 0.75;
+  }
+`;
+
+const StyledButtonLink = styled(Link)`
+  text-transform: uppercase;
+  font-weight: ${({ theme }) => theme.bold};
+  text-decoration: none;
+  color: black;
+  display: block;
+`;
+
 const StyledLink = styled.a`
   text-transform: uppercase;
   font-weight: ${({ theme }) => theme.bold};
@@ -62,32 +84,34 @@ const StyledLink = styled.a`
   display: block;
 `;
 
-const DetailsTemplate = ({ pageContext, itemData }) => (
-  <SidebarTemplate pageType={pageContext}>
-    <StyledWrapper>
-      <HeaderWrapper>
-        <div>
-          <StyledHeading big>{itemData.title}</StyledHeading>
-          <DateInfo>Created: {itemData.created}</DateInfo>
-        </div>
-        {pageContext === 'twitters' && (
-          <StyledAvatar src={`https://avatars.io/twitter/${itemData.twitterAccountName}`} />
-        )}
-      </HeaderWrapper>
-      <ContentWrapper>
-        <p>{itemData.content}</p>
-        {pageContext === 'articles' && (
-          <StyledLink href={`http://${itemData.articleUrl}`}>Open this article</StyledLink>
-        )}
-      </ContentWrapper>
-      <FooterWrapper>
-        <StyledButtonLinkWrapper as="div" pageType={pageContext}>
-          <Link to={`/${pageContext}`}>Save / Close</Link>
-        </StyledButtonLinkWrapper>
-      </FooterWrapper>
-    </StyledWrapper>
-  </SidebarTemplate>
-);
+const DetailsTemplate = ({ pageContext, itemData }) => {
+  return (
+    <SidebarTemplate pageType={pageContext}>
+      <StyledWrapper>
+        <HeaderWrapper>
+          <div>
+            <StyledHeading big>{itemData.title}</StyledHeading>
+            <DateInfo>Created: {itemData.created}</DateInfo>
+          </div>
+          {pageContext === 'twitters' && (
+            <StyledAvatar src={`https://avatars.io/twitter/${itemData.twitterAccountName}`} />
+          )}
+        </HeaderWrapper>
+        <ContentWrapper>
+          <p>{itemData.content}</p>
+          {pageContext === 'articles' && (
+            <StyledLink href={`http://${itemData.articleUrl}`}>Open this article</StyledLink>
+          )}
+        </ContentWrapper>
+        <FooterWrapper>
+          <StyledLinkWrapper pageType={pageContext}>
+            <StyledButtonLink to={`/${pageContext}`}>Save / Close</StyledButtonLink>
+          </StyledLinkWrapper>
+        </FooterWrapper>
+      </StyledWrapper>
+    </SidebarTemplate>
+  );
+};
 
 DetailsTemplate.propTypes = {
   pageContext: PropTypes.oneOf(['notes', 'twitters', 'articles']),

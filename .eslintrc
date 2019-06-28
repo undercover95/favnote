@@ -6,7 +6,8 @@
   },
   "globals": {
     "document": true,
-    "window": true
+    "window": true,
+    "localStorage": true
   },
   "rules": {
     "no-underscore-dangle": 0,

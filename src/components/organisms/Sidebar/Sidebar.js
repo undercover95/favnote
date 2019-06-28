@@ -11,6 +11,7 @@ import logoutIcon from 'assets/icons/logout.svg';
 import penIcon from 'assets/icons/pen.svg';
 import twitterIcon from 'assets/icons/twitter.svg';
 import logoIcon from 'assets/icons/logo.svg';
+import { logOutUser } from 'actions';
 
 const StyledSidebar = styled.div`
   position: fixed;
@@ -63,7 +64,7 @@ const Sidebar = ({ pageContext }) => (
       <ButtonIcon as={NavLink} to={routes.articles} icon={bulbIcon} activeclass="active" />
     </IconsWrapper>
     <LogoutWrapper>
-      <ButtonIcon as={NavLink} to={routes.login} icon={logoutIcon} />
+      <ButtonIcon as={NavLink} to={routes.login} icon={logoutIcon} onClick={() => logOutUser()} />
     </LogoutWrapper>
   </StyledSidebar>
 );

@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled, { css } from 'styled-components';
 import PropTypes from 'prop-types';
-import { Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import withContext from 'hoc/withContext';
 import { removeItem as removeItemAction } from 'actions';
@@ -19,12 +19,6 @@ const StyledWrapper = styled.div`
   display: grid;
   grid-template-rows: 0.25fr 1fr;
   position: relative;
-  transition: transform 0.2s ease-in-out;
-
-  :hover {
-    cursor: pointer;
-    transform: scale(1.025);
-  }
 `;
 
 const InnerWrapper = styled.div`
@@ -56,8 +50,13 @@ const InnerWrapper = styled.div`
     `}
 `;
 
+const HorizontalWrapper = styled.div`
+  display: flex;
+  justify-content: flex-start;
+`;
+
 const DateInfo = styled(Paragraph)`
-  font-weight: ${({ theme }) => theme.bold};
+  font-weight: ${({ theme }) => theme.light};
   font-size: ${({ theme }) => theme.fontSize.xs};
   margin: 0 0 5px;
 `;
@@ -76,6 +75,40 @@ const StyledAvatar = styled.img`
   top: 25px;
 `;
 
+const StyledLinkWrapper = styled.div`
+  width: 105px;
+  height: 30px;
+  line-height: 30px;
+  font-size: 10px;
+  text-align: center;
+  border-radius: 50px;
+  font-weight: ${({ theme }) => theme.bold};
+  text-transform: uppercase;
+  margin-right: 20px;
+  background-color: ${({ pageType, theme }) => {
+    switch (pageType) {
+      case 'notes':
+        return theme.primary;
+      case 'twitters':
+        return theme.secondary;
+      case 'articles':
+        return theme.tertiary;
+      default:
+        return theme.grey200;
+    }
+  }};
+
+  :hover {
+    opacity: 0.75;
+  }
+`;
+
+const StyledLink = styled(Link)`
+  display: block;
+  text-decoration: none;
+  color: #000;
+`;
+
 const StyledLinkButton = styled.a`
   display: block;
   width: 47px;
@@ -91,36 +124,17 @@ const StyledLinkButton = styled.a`
 `;
 
 const Card = ({
-  id,
-  pageContext,
+  _id,
   title,
   content,
   created,
   twitterAccountName,
   articleUrl,
   removeItem,
+  pageContext,
 }) => {
-  const [redirect, setRedirect] = useState(false);
-
-  if (redirect) {
-    return (
-      <Redirect
-        to={{
-          pathname: `${pageContext}/${id}`,
-          state: {
-            title,
-            content,
-            created,
-            twitterAccountName,
-            articleUrl,
-          },
-        }}
-      />
-    );
-  }
-
   return (
-    <StyledWrapper onClick={() => setRedirect(true)}>
+    <StyledWrapper>
       <InnerWrapper cardType={pageContext}>
         <StyledHeading>{title}</StyledHeading>
         <DateInfo>{created}</DateInfo>
@@ -131,9 +145,15 @@ const Card = ({
       </InnerWrapper>
       <InnerWrapper flex>
         <Paragraph>{content}</Paragraph>
-        <Button secondary onClick={() => removeItem(pageContext, id)}>
-          Remove
-        </Button>
+        <HorizontalWrapper>
+          <StyledLinkWrapper pageType={pageContext}>
+            <StyledLink to={`/${pageContext}/${_id}`}>Open</StyledLink>
+          </StyledLinkWrapper>
+
+          <Button secondary onClick={() => removeItem(pageContext, _id)}>
+            Remove
+          </Button>
+        </HorizontalWrapper>
       </InnerWrapper>
     </StyledWrapper>
   );
@@ -141,7 +161,7 @@ const Card = ({
 
 Card.propTypes = {
   pageContext: PropTypes.oneOf(['notes', 'twitters', 'articles']),
-  id: PropTypes.number.isRequired,
+  _id: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   content: PropTypes.string.isRequired,
   created: PropTypes.string.isRequired,
@@ -157,7 +177,7 @@ Card.defaultProps = {
 };
 
 const mapDispatchToProps = dispatch => ({
-  removeItem: (itemType, id) => dispatch(removeItemAction(itemType, id)),
+  removeItem: (itemType, _id) => dispatch(removeItemAction(itemType, _id)),
 });
 
 export default connect(

@@ -47,7 +47,7 @@ const StyledErrorMsg = styled.div`
   text-align: center;
 `;
 
-const SignInForm = ({ authenticate, userId }) => (
+const SignInForm = ({ authenticate, userIsLogged }) => (
   <>
     <Heading big>Sign in</Heading>
     <Formik
@@ -73,7 +73,7 @@ const SignInForm = ({ authenticate, userId }) => (
       }}
     >
       {({ values, handleChange, handleBlur }) => {
-        if (userId) {
+        if (userIsLogged) {
           return <Redirect to={routes.home} />;
         }
         return (
@@ -107,22 +107,18 @@ const SignInForm = ({ authenticate, userId }) => (
   </>
 );
 
-const mapStateToProps = ({ userId = null }) => ({
-  userId,
+SignInForm.propTypes = {
+  authenticate: PropTypes.func.isRequired,
+  userIsLogged: PropTypes.bool.isRequired,
+};
+
+const mapStateToProps = state => ({
+  userIsLogged: state.userIsLogged,
 });
 
 const mapDispatchToProps = dispatch => ({
   authenticate: (username, password) => dispatch(authenticateAction(username, password)),
 });
-
-SignInForm.propTypes = {
-  authenticate: PropTypes.func.isRequired,
-  userId: PropTypes.string,
-};
-
-SignInForm.defaultProps = {
-  userId: null,
-};
 
 export default connect(
   mapStateToProps,
