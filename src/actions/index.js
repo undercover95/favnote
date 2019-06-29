@@ -1,9 +1,9 @@
 import axios from 'axios';
-
-import config from 'config';
+import jwtDecode from 'jwt-decode';
+import configFile from 'config';
 
 const environment = process.env.NODE_ENV || 'development';
-const appConfig = config[environment];
+const config = configFile[environment];
 
 export const ADD_ITEM_REQUEST = 'ADD_ITEM_REQUEST';
 export const ADD_ITEM_SUCCESS = 'ADD_ITEM_SUCCESS';
@@ -17,6 +17,10 @@ export const AUTHENTICATE_REQUEST = 'AUTHENTICATE_REQUEST';
 export const AUTHENTICATE_SUCCESS = 'AUTHENTICATE_SUCCESS';
 export const AUTHENTICATE_FAILURE = 'AUTHENTICATE_FAILURE';
 
+export const REGISTER_REQUEST = 'REGISTER_REQUEST';
+export const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
+export const REGISTER_FAILURE = 'REGISTER_FAILURE';
+
 export const FETCH_REQUEST = 'FETCH_REQUEST';
 export const FETCH_SUCCESS = 'FETCH_SUCCESS';
 export const FETCH_FAILURE = 'FETCH_FAILURE';
@@ -26,21 +30,28 @@ export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
 export const LOGOUT_FAILURE = 'LOGOUT_FAILURE';
 
 const AUTH_TOKEN_NAME = 'authToken';
-const API_ENTRY = `${appConfig.api_host}:${appConfig.api_port}/${appConfig.api_entry}`;
+const API_URL = `${config.api_host}:${config.api_port}/${config.api_entry}`;
 
 const getHeaders = () => ({
   Authorization: `Bearer ${localStorage.getItem(AUTH_TOKEN_NAME)}`,
 });
 
+export const getUserData = () => jwtDecode(localStorage.getItem(AUTH_TOKEN_NAME));
+
 const logInUser = token => {
   localStorage.setItem(AUTH_TOKEN_NAME, token);
+};
+
+export const userIsLogged = () => {
+  if (localStorage.getItem(AUTH_TOKEN_NAME)) return true;
+  return false;
 };
 
 export const logOutUser = () => dispatch => {
   dispatch({ type: LOGOUT_REQUEST });
   return axios
     .post(
-      `${API_ENTRY}/user/logout`,
+      `${API_URL}/user/logout`,
       {},
       {
         headers: getHeaders(),
@@ -56,15 +67,10 @@ export const logOutUser = () => dispatch => {
     });
 };
 
-export const userIsLogged = () => {
-  if (localStorage.getItem(AUTH_TOKEN_NAME)) return true;
-  return false;
-};
-
 export const authenticate = (username, password) => dispatch => {
   dispatch({ type: AUTHENTICATE_REQUEST });
   return axios
-    .post(`${API_ENTRY}/user/login`, {
+    .post(`${API_URL}/user/login`, {
       username,
       password,
     })
@@ -79,10 +85,26 @@ export const authenticate = (username, password) => dispatch => {
     });
 };
 
+export const register = (username, password) => dispatch => {
+  dispatch({ type: REGISTER_REQUEST });
+  return axios
+    .post(`${API_URL}/user/register`, {
+      username,
+      password,
+    })
+    .then(payload => {
+      dispatch({ type: REGISTER_SUCCESS, payload });
+    })
+    .catch(err => {
+      console.log(err);
+      dispatch({ type: REGISTER_FAILURE, err });
+    });
+};
+
 export const removeItem = (itemType, _id) => dispatch => {
   dispatch({ type: REMOVE_ITEM_REQUEST });
   axios
-    .delete(`${API_ENTRY}/note/${_id}`, {
+    .delete(`${API_URL}/note/${_id}`, {
       headers: getHeaders(),
     })
     .then(() => {
@@ -107,7 +129,7 @@ export const addItem = (itemType, itemContent) => dispatch => {
   dispatch({ type: ADD_ITEM_REQUEST });
   axios
     .post(
-      `${API_ENTRY}/note`,
+      `${API_URL}/note`,
       {
         type: itemType,
         ...itemContent,
@@ -135,7 +157,7 @@ export const addItem = (itemType, itemContent) => dispatch => {
 export const fetchItems = itemType => dispatch => {
   dispatch({ type: FETCH_REQUEST });
   return axios
-    .get(`${API_ENTRY}/notes/type`, {
+    .get(`${API_URL}/notes/type`, {
       params: {
         type: itemType,
       },
@@ -159,7 +181,7 @@ export const fetchItems = itemType => dispatch => {
 
 export const fetchSingleItem = _id => {
   return axios
-    .get(`${API_ENTRY}/note/${_id}`, {
+    .get(`${API_URL}/note/${_id}`, {
       headers: getHeaders(),
     })
     .then(({ data }) => {

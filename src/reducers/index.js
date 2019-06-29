@@ -8,6 +8,7 @@ import {
   FETCH_SUCCESS,
   FETCH_FAILURE,
   LOGOUT_SUCCESS,
+  REGISTER_SUCCESS,
 } from 'actions';
 
 const initialState = {
@@ -23,6 +24,12 @@ const rootReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         userIsLogged: true,
+      };
+
+    case REGISTER_SUCCESS:
+      return {
+        ...state,
+        userRegistered: true,
       };
 
     case LOGOUT_SUCCESS:

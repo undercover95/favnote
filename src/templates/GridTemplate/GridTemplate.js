@@ -12,6 +12,7 @@ import ButtonIcon from 'components/atoms/ButtonIcon/ButtonIcon';
 import plusIcon from 'assets/icons/plus.svg';
 
 import withContext from 'hoc/withContext';
+import { getUserData } from 'actions';
 
 const StyledWrapper = styled.div`
   padding: 25px 150px 25px 70px;
@@ -84,6 +85,11 @@ const StyledButtonIcon = styled(ButtonIcon)`
   }};
   border-radius: 50%;
   z-index: 999999;
+  outline: none;
+
+  ::-moz-focus-inner {
+    border: 0;
+  }
 
   :hover {
     cursor: pointer;
@@ -91,6 +97,18 @@ const StyledButtonIcon = styled(ButtonIcon)`
 
   transition: transform 0.2s ease-in-out;
   transform: rotate(${({ isNewItemBarVisible }) => (isNewItemBarVisible ? '45deg' : '0')});
+`;
+
+const TopBarWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const UserWelcome = styled(Heading)`
+  font-weight: ${({ theme }) => theme.light};
+  margin-right: 10px;
+  margin-left: auto;
 `;
 
 const GridTemplate = ({ children, pageContext }) => {
@@ -116,7 +134,13 @@ const GridTemplate = ({ children, pageContext }) => {
     <SidebarTemplate>
       <StyledWrapper>
         <StyledPageHeader>
-          <Input search placeholder="Search by title" onChange={searchItems} />
+          <TopBarWrapper>
+            <Input search placeholder="Search by title" onChange={searchItems} />
+            <>
+              <UserWelcome>Welcome,</UserWelcome>
+              <Heading>{getUserData().username}</Heading>
+            </>
+          </TopBarWrapper>
           <StyledHeading big as="h1">
             {pageContext}
           </StyledHeading>
