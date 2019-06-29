@@ -109,7 +109,11 @@ const SignInForm = ({ authenticate, userIsLogged }) => (
 
 SignInForm.propTypes = {
   authenticate: PropTypes.func.isRequired,
-  userIsLogged: PropTypes.bool.isRequired,
+  userIsLogged: PropTypes.bool,
+};
+
+SignInForm.defaultProps = {
+  userIsLogged: false,
 };
 
 const mapStateToProps = state => ({

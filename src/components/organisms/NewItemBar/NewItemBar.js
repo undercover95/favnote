@@ -54,8 +54,6 @@ const StyledTextArea = styled(Input)`
   border-radius: 20px;
 `;
 
-const StyledHeading = styled(Heading)``;
-
 const StyledButton = styled(Button)`
   margin: 70px 0 auto;
 `;
@@ -79,7 +77,7 @@ const NewItemBar = ({ isVisible, handleClose, pageContext, addItem }) => {
   const singularItemName = pageContext.slice(0, pageContext.length - 1);
   return (
     <StyledWrapper isVisible={isVisible} pageType={pageContext}>
-      <StyledHeading big>Add a new {singularItemName}</StyledHeading>
+      <Heading big>Add a new {singularItemName}</Heading>
       <Formik
         initialValues={{
           title: '',

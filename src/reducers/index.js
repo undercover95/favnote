@@ -9,13 +9,14 @@ import {
   FETCH_FAILURE,
   LOGOUT_SUCCESS,
   REGISTER_SUCCESS,
+  userIsLogged as checkIfUserIsLogged,
 } from 'actions';
 
 const initialState = {
   notes: [],
   articles: [],
   twitters: [],
-  userIsLogged: false,
+  userIsLogged: checkIfUserIsLogged(),
 };
 
 const rootReducer = (state = initialState, { type, payload }) => {
@@ -23,7 +24,7 @@ const rootReducer = (state = initialState, { type, payload }) => {
     case AUTHENTICATE_SUCCESS:
       return {
         ...state,
-        userIsLogged: true,
+        userIsLogged: checkIfUserIsLogged(),
       };
 
     case REGISTER_SUCCESS:
@@ -35,7 +36,7 @@ const rootReducer = (state = initialState, { type, payload }) => {
     case LOGOUT_SUCCESS:
       return {
         ...state,
-        userIsLogged: false,
+        userIsLogged: checkIfUserIsLogged(),
       };
 
     case FETCH_SUCCESS:

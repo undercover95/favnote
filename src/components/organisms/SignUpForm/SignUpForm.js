@@ -54,10 +54,6 @@ const StyledHeading = styled(Heading)`
   margin-bottom: 0;
 `;
 
-const StyledSmallHeading = styled(Heading)`
-  font-size: ${({ theme }) => theme.fontSize.s};
-`;
-
 const MessageWrapper = styled.div`
   text-align: center;
   margin-bottom: 20px;
@@ -68,9 +64,9 @@ const SignUpForm = ({ register, userRegistered }) => (
     {userRegistered && (
       <MessageWrapper>
         <StyledHeading>Registered successfully!</StyledHeading>
-        <StyledSmallHeading>
+        <Heading small>
           Now you can <StyledLink to={routes.login}>sing in.</StyledLink>
-        </StyledSmallHeading>
+        </Heading>
       </MessageWrapper>
     )}
     <Heading big>Sign up</Heading>

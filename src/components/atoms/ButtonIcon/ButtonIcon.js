@@ -10,7 +10,11 @@ const ButtonIcon = styled.button`
   background-position: center center;
   background-size: 40%;
   border: none;
-  background-color: 'transparent';
+  background-color: transparent;
+
+  &:hover {
+    cursor: pointer;
+  }
 
   &.active {
     background-color: white;

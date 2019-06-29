@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
-
+import { connect } from 'react-redux';
 import SidebarTemplate from 'templates/SidebarTemplate/SidebarTemplate';
 import Input from 'components/atoms/Input/Input';
 import Heading from 'components/atoms/Heading/Heading';
@@ -106,12 +106,11 @@ const TopBarWrapper = styled.div`
 `;
 
 const UserWelcome = styled(Heading)`
-  font-weight: ${({ theme }) => theme.light};
   margin-right: 10px;
   margin-left: auto;
 `;
 
-const GridTemplate = ({ children, pageContext }) => {
+const GridTemplate = ({ children, pageContext, isFetching }) => {
   const [isNewItemBarVisible, setNewItemBarVisibility] = useState(false);
   const [filteredItems, setFilteredItems] = useState(children);
 
@@ -137,7 +136,7 @@ const GridTemplate = ({ children, pageContext }) => {
           <TopBarWrapper>
             <Input search placeholder="Search by title" onChange={searchItems} />
             <>
-              <UserWelcome>Welcome,</UserWelcome>
+              <UserWelcome light>Welcome,</UserWelcome>
               <Heading>{getUserData().username}</Heading>
             </>
           </TopBarWrapper>
@@ -146,7 +145,11 @@ const GridTemplate = ({ children, pageContext }) => {
           </StyledHeading>
           <StyledParagraph>{`${filteredItems.length} ${pageContext}`}</StyledParagraph>
         </StyledPageHeader>
-        <StyledGridWrapper>{filteredItems}</StyledGridWrapper>
+        {isFetching ? (
+          <Heading>{`Loading ${pageContext}...`}</Heading>
+        ) : (
+          <StyledGridWrapper>{filteredItems}</StyledGridWrapper>
+        )}
         <StyledButtonIcon
           icon={plusIcon}
           pageType={pageContext}
@@ -162,10 +165,14 @@ const GridTemplate = ({ children, pageContext }) => {
 GridTemplate.propTypes = {
   children: PropTypes.arrayOf(PropTypes.object).isRequired,
   pageContext: PropTypes.oneOf(['notes', 'twitters', 'articles']),
+  isFetching: PropTypes.bool,
 };
 
 GridTemplate.defaultProps = {
   pageContext: 'notes',
+  isFetching: false,
 };
 
-export default withContext(GridTemplate);
+const mapStateToProps = state => ({ isFetching: state.isFetching });
+
+export default connect(mapStateToProps)(withContext(GridTemplate));

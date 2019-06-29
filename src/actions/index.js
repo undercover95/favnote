@@ -29,16 +29,17 @@ export const LOGOUT_REQUEST = 'LOGOUT_REQUEST';
 export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
 export const LOGOUT_FAILURE = 'LOGOUT_FAILURE';
 
-const AUTH_TOKEN_NAME = 'authToken';
-const API_URL = `${config.api_host}:${config.api_port}/${config.api_entry}`;
+export const AUTH_TOKEN_NAME = 'authToken';
+export const API_URL = `${config.api_host}:${config.api_port}/${config.api_entry}`;
 
-const getHeaders = () => ({
+// additional utils
+export const getHeaders = () => ({
   Authorization: `Bearer ${localStorage.getItem(AUTH_TOKEN_NAME)}`,
 });
 
 export const getUserData = () => jwtDecode(localStorage.getItem(AUTH_TOKEN_NAME));
 
-const logInUser = token => {
+export const logInUser = token => {
   localStorage.setItem(AUTH_TOKEN_NAME, token);
 };
 
@@ -47,6 +48,7 @@ export const userIsLogged = () => {
   return false;
 };
 
+// redux actions
 export const logOutUser = () => dispatch => {
   dispatch({ type: LOGOUT_REQUEST });
   return axios
@@ -58,8 +60,8 @@ export const logOutUser = () => dispatch => {
       },
     )
     .then(() => {
-      dispatch({ type: LOGOUT_SUCCESS });
       localStorage.removeItem(AUTH_TOKEN_NAME);
+      dispatch({ type: LOGOUT_SUCCESS });
     })
     .catch(err => {
       dispatch({ type: LOGOUT_FAILURE });
