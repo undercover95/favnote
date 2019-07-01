@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import withContext from 'hoc/withContext';
 import { connect } from 'react-redux';
-import { addItem as addItemAction } from 'actions';
+import { addItem as addItemAction, getSingularItemTypeName } from 'actions';
 import { Formik, Form, ErrorMessage } from 'formik';
 import validUrl from 'valid-url';
 
@@ -74,7 +74,7 @@ const StyledErrorMsg = styled.div`
 `;
 
 const NewItemBar = ({ isVisible, handleClose, pageContext, addItem }) => {
-  const singularItemName = pageContext.slice(0, pageContext.length - 1);
+  const singularItemName = getSingularItemTypeName(pageContext);
   return (
     <StyledWrapper isVisible={isVisible} pageType={pageContext}>
       <Heading big>Add a new {singularItemName}</Heading>

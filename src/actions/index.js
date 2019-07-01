@@ -49,6 +49,10 @@ export const userIsLogged = () => {
   return false;
 };
 
+export const getSingularItemTypeName = itemType => {
+  return itemType.slice(0, itemType.length - 1);
+};
+
 // redux actions
 export const logOutUser = () => dispatch => {
   dispatch({ type: LOGOUT_REQUEST });
@@ -111,7 +115,7 @@ export const removeItem = (itemType, _id) => dispatch => {
       headers: getHeaders(),
     })
     .then(() => {
-      toast.success('Selected item has been removed successfully!');
+      toast.success(`Selected ${getSingularItemTypeName(itemType)} has been removed successfully!`);
       dispatch({
         type: REMOVE_ITEM_SUCCESS,
         payload: {
@@ -122,7 +126,7 @@ export const removeItem = (itemType, _id) => dispatch => {
     })
     .catch(err => {
       console.log(`Cannot remove item!\n${err}`);
-      toast.error('Selected item cannot be removed!');
+      toast.error(`Selected ${getSingularItemTypeName(itemType)} cannot be removed!`);
       dispatch({
         type: REMOVE_ITEM_FAILURE,
         payload: err,
@@ -142,7 +146,7 @@ export const addItem = (itemType, itemContent) => dispatch => {
       { headers: getHeaders() },
     )
     .then(({ data }) => {
-      toast.success('A new item has been added successfully!');
+      toast.success(`A new ${getSingularItemTypeName(itemType)} has been added successfully!`);
       dispatch({
         type: ADD_ITEM_SUCCESS,
         payload: {
@@ -153,7 +157,7 @@ export const addItem = (itemType, itemContent) => dispatch => {
     })
     .catch(err => {
       console.log(`Cannot add item!\n${err}`);
-      toast.error('Cannot add a new item!');
+      toast.error(`Cannot add a new ${getSingularItemTypeName(itemType)}!`);
       dispatch({
         type: ADD_ITEM_FAILURE,
         payload: err,
@@ -182,7 +186,7 @@ export const fetchItems = itemType => dispatch => {
     .catch(err => {
       console.log(err);
       const payload = err;
-      toast.error('There was a problem while fetching items!');
+      toast.error(`There was a problem while fetching ${getSingularItemTypeName(itemType)}!`);
       dispatch({ type: FETCH_FAILURE, payload });
     });
 };
