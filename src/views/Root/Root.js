@@ -1,6 +1,6 @@
 import React from 'react';
 import MainTemplate from 'templates/MainTemplate/MainTemplate';
-import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
+import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
 import PrivateRoute from 'components/PrivateRoute';
 
 import { Provider } from 'react-redux';

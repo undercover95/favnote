@@ -1,0 +1,29 @@
+.custom-toast-container {
+    color: #333;
+}
+
+.custom-toast {
+    background-color: #fff;
+    padding: 20px;
+    font-family: inherit;
+}
+
+.Toastify__close-button {
+    color: #444;
+}
+
+.Toastify__toast--success {
+    border-left: 4px solid #07bc0c;
+}
+
+.Toastify__toast--info {
+    border-left: 4px solid #3399ff;
+}
+
+.Toastify__toast--warn {
+    border-left: 4px solid #ffcc00;
+}
+
+.Toastify__toast--error {
+    border-left: 4px solid #ff3300;
+}

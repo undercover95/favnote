@@ -1,6 +1,7 @@
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
 import configFile from 'config';
+import { toast } from 'react-toastify';
 
 const environment = process.env.NODE_ENV || 'development';
 const config = configFile[environment];
@@ -110,6 +111,7 @@ export const removeItem = (itemType, _id) => dispatch => {
       headers: getHeaders(),
     })
     .then(() => {
+      toast.success('Selected item has been removed successfully!');
       dispatch({
         type: REMOVE_ITEM_SUCCESS,
         payload: {
@@ -120,6 +122,7 @@ export const removeItem = (itemType, _id) => dispatch => {
     })
     .catch(err => {
       console.log(`Cannot remove item!\n${err}`);
+      toast.error('Selected item cannot be removed!');
       dispatch({
         type: REMOVE_ITEM_FAILURE,
         payload: err,
@@ -139,6 +142,7 @@ export const addItem = (itemType, itemContent) => dispatch => {
       { headers: getHeaders() },
     )
     .then(({ data }) => {
+      toast.success('A new item has been added successfully!');
       dispatch({
         type: ADD_ITEM_SUCCESS,
         payload: {
@@ -149,6 +153,7 @@ export const addItem = (itemType, itemContent) => dispatch => {
     })
     .catch(err => {
       console.log(`Cannot add item!\n${err}`);
+      toast.error('Cannot add a new item!');
       dispatch({
         type: ADD_ITEM_FAILURE,
         payload: err,
@@ -177,6 +182,7 @@ export const fetchItems = itemType => dispatch => {
     .catch(err => {
       console.log(err);
       const payload = err;
+      toast.error('There was a problem while fetching items!');
       dispatch({ type: FETCH_FAILURE, payload });
     });
 };

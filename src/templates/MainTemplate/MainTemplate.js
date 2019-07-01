@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { ThemeProvider } from 'styled-components';
 import GlobalStyle from 'theme/GlobalStyle';
+import { ToastContainer, Zoom } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import 'theme/toast.css';
 import { theme } from 'theme/mainTheme';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
@@ -24,7 +27,19 @@ const MainTemplate = ({ children, ...props }) => {
     <div>
       <PageContext.Provider value={pageType}>
         <GlobalStyle />
-        <ThemeProvider theme={theme}>{children}</ThemeProvider>
+        <ThemeProvider theme={theme}>
+          <>
+            {children}
+            <ToastContainer
+              autoClose={4000}
+              position="top-right"
+              transition={Zoom}
+              hideProgressBar
+              className="custom-toast-container"
+              toastClassName="custom-toast"
+            />
+          </>
+        </ThemeProvider>
       </PageContext.Provider>
     </div>
   );

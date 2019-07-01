@@ -7,7 +7,6 @@ import Input from 'components/atoms/Input/Input';
 import Heading from 'components/atoms/Heading/Heading';
 import Paragraph from 'components/atoms/Paragraph/Paragraph';
 import NewItemBar from 'components/organisms/NewItemBar/NewItemBar';
-
 import ButtonIcon from 'components/atoms/ButtonIcon/ButtonIcon';
 import plusIcon from 'assets/icons/plus.svg';
 
