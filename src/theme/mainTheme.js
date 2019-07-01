@@ -21,4 +21,10 @@ export const theme = {
     tablet: '(max-width: 768px)',
     mobile: '(max-width: 460px)',
   },
+  notification: {
+    success: '#07bc0c',
+    info: '#3399ff',
+    warn: '#ffcc00',
+    error: '#ff3300',
+  },
 };
