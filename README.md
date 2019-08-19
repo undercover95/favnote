@@ -35,15 +35,15 @@ Project is created with:
 ## Screenshots
 
 ![](./screenshots/fv1.png)
-_Notes view_
+_Notes view_\\
 ![](./screenshots/fv2.png)
-_Adding a new twitter_
+_Adding a new twitter_\\
 ![](./screenshots/fv4.png)
-_Adding a new article_
+_Adding a new article_\\
 ![](./screenshots/fv3.png)
-_Article details view_
+_Article details view_\\
 ![](./screenshots/fv0.png)
-_Toast notifications_
+_Toast notifications_\\
 
 ## Sources
 
