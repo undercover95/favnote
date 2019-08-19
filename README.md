@@ -39,16 +39,20 @@ Project is created with:
 <p align="center">Notes view</p>
 
 ![](./screenshots/fv2.png)
-_Adding a new twitter_
+
+<p align="center">Adding a new twitter</p>
 
 ![](./screenshots/fv4.png)
-_Adding a new article_
+
+<p align="center">Adding a new article</p>
 
 ![](./screenshots/fv3.png)
-_Article details view_
+
+<p align="center">Article details view</p>
 
 ![](./screenshots/fv0.png)
-_Toast notifications_
+
+<p align="center">Toast notifications</p>
 
 ## Sources
 
