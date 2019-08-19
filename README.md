@@ -35,13 +35,17 @@ Project is created with:
 ## Screenshots
 
 ![](./screenshots/fv1.png)
-Notes view\\
+_Notes view_
+
 ![](./screenshots/fv2.png)
-_Adding a new twitter_\\
+_Adding a new twitter_
+
 ![](./screenshots/fv4.png)
 _Adding a new article_\\
+
 ![](./screenshots/fv3.png)
 _Article details view_\\
+
 ![](./screenshots/fv0.png)
 _Toast notifications_\\
 
