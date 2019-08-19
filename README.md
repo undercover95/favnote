@@ -35,7 +35,7 @@ Project is created with:
 ## Screenshots
 
 ![](./screenshots/fv1.png)
-_Notes view_\\
+Notes view\\
 ![](./screenshots/fv2.png)
 _Adding a new twitter_\\
 ![](./screenshots/fv4.png)
